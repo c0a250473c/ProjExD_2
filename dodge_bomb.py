@@ -2,6 +2,8 @@ import os
 import random
 import sys
 import pygame as pg
+import math
+import time
 
 
 WIDTH, HEIGHT = 1100, 650
@@ -18,7 +20,7 @@ def check_bound(rect: pg.Rect) -> tuple[bool, bool]:
     """
     引数：こうかとんまたは爆弾のRect
     戻り値：タプル（横方向判定結果，縦方向判定結果）
-    画面内ならTrue／画面外ならFalse
+    画面内ならTrue / 画面外ならFalse
     """
     yoko, tate = True, True
     if rect.left < 0 or WIDTH < rect.right:  # 横方向判定
@@ -50,6 +52,11 @@ def main():
                 return
         screen.blit(bg_img, [0, 0]) 
 
+        if kk_rct.colliderect(bb_rct):  # 練習4：kkとbbのrectが重なっていたら
+            print("game over")
+            gameover(screen)
+            return
+
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
         # if key_lst[pg.K_UP]:
@@ -79,6 +86,30 @@ def main():
         pg.display.update()
         tmr += 1
         clock.tick(50)
+
+
+def gameover(screen: pg.Surface) -> None:
+
+    surface = pg.Surface((WIDTH, HEIGHT))
+    pg.draw.rect(surface, (0,0,0), pg.Rect(0,0,WIDTH,HEIGHT))
+    surface.set_alpha(180)
+
+    font = pg.font.Font(None, 100)
+    font_Surface = font.render("Game Over", True, (255, 255, 255))
+    rct=font_Surface.get_rect()
+    rct.center=WIDTH/2,HEIGHT/2
+    surface.blit(font_Surface, rct)
+
+    kk_img = pg.image.load("fig/8.png")
+    kk_Surface_1 = kk_img.get_rect(center=((WIDTH/2)-250, HEIGHT/2))
+    surface.blit(kk_img, kk_Surface_1)
+    kk_Surface_2 = kk_img.get_rect(center=((WIDTH/2)+250, HEIGHT/2))
+    surface.blit(kk_img, kk_Surface_2)
+
+    screen.blit(surface, [0, 0])
+    pg.display.update()
+
+    time.sleep(5)
 
 
 if __name__ == "__main__":
