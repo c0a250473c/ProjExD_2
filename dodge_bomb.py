@@ -87,23 +87,23 @@ def main():
         tmr += 1
         clock.tick(50)
 
-
+ #ゲームオーバー画面
 def gameover(screen: pg.Surface) -> None:
 
     surface = pg.Surface((WIDTH, HEIGHT))
-    pg.draw.rect(surface, (0,0,0), pg.Rect(0,0,WIDTH,HEIGHT))
-    surface.set_alpha(180)
+    pg.draw.rect(surface, (0,0,0), pg.Rect(0,0,WIDTH,HEIGHT)) #黒背景
+    surface.set_alpha(180) #透明度
 
     font = pg.font.Font(None, 100)
     font_Surface = font.render("Game Over", True, (255, 255, 255))
-    rct=font_Surface.get_rect()
+    rct=font_Surface.get_rect() #rectを取得
     rct.center=WIDTH/2,HEIGHT/2
     surface.blit(font_Surface, rct)
 
     kk_img = pg.image.load("fig/8.png")
-    kk_Surface_1 = kk_img.get_rect(center=((WIDTH/2)-250, HEIGHT/2))
+    kk_Surface_1 = kk_img.get_rect(center=((WIDTH/2)-250, HEIGHT/2)) #こうかとん画像1
     surface.blit(kk_img, kk_Surface_1)
-    kk_Surface_2 = kk_img.get_rect(center=((WIDTH/2)+250, HEIGHT/2))
+    kk_Surface_2 = kk_img.get_rect(center=((WIDTH/2)+250, HEIGHT/2)) #こうかとん画像2
     surface.blit(kk_img, kk_Surface_2)
 
     screen.blit(surface, [0, 0])
